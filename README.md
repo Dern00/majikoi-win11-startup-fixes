@@ -4,10 +4,12 @@ Unofficial patches for intermittent startup failures in Majikoi A1–A5 and Maji
 
 ## Downloads
 
-- [Majikoi A1-A5 Win 11 startup fix.zip](./Majikoi%20A1-A5%20Win%2011%20startup%20fix.zip?raw=true)
-- [Majikoi A+ Win 11 startup fix.zip](./Majikoi%20A%2B%20Win%2011%20startup%20fix.zip?raw=true)
+[Latest release](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/tag/v1.0)
 
-Click a link to download, then extract the entire ZIP before running it.
+- [Majikoi A1-A5 Win 11 startup fix.zip](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/download/v1.0/Majikoi.A1-A5.Win.11.startup.fix.zip)
+- [Majikoi A+ Win 11 startup fix.zip](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/download/v1.0/Majikoi.A%2B.Win.11.startup.fix.zip)
+
+Download the ZIP for your game from the release assets, then extract the entire ZIP before running it.
 
 ## Installation
 
