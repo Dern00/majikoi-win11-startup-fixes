@@ -1,3 +1,3 @@
 @echo off
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Patch.ps1" -Mode Install
+powershell.exe -NoProfile -STA -ExecutionPolicy Bypass -File "%~dp0Patch.ps1" -Mode Install
 pause

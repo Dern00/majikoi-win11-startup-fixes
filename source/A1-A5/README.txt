@@ -1,5 +1,5 @@
 MAJIKOI A: STARTUP FIX + ENGLISH LAUNCHER AND SETTINGS
-Version 1.0 | November 1, 2026 | Unofficial community patch
+Version 1.1 | November 15, 2026 | Unofficial community patch
 
 WHAT IT DOES
 - Helps prevent startup hangs on modern Windows by restricting each A-1 through A-5 game to one logical processor.
@@ -17,13 +17,13 @@ INSTALL
 1. Extract this entire ZIP into a folder. Do not run it from inside the ZIP.
 2. Close the launcher, settings windows, and all game instances.
 3. Double-click Install.cmd.
-4. Paste the full path to the game folder when prompted, then press Enter.
+4. Choose the game installation folder in the popup, then click OK.
 5. Wait for "Install complete", then launch Launcher.exe normally.
 
 The installer first validates every target and prepares the changes in memory. It saves originals in Majikoi-English-Startup-Mod-Backup-v1 inside the game folder, then checks the installed files. Re-running the installer skips files already patched.
 
 UNDO
-Close the launcher, settings, and games. Double-click Restore.cmd and enter the same game folder. Keep the backup folder until you no longer need to restore. Restore also verifies its inputs; it will not overwrite files from a different version or a later modification. You can alternatively copy the seven original files from the backup folder back into the game folder while all game programs are closed.
+Close the launcher, settings, and games. Double-click Restore.cmd and select the same game folder in the popup. Keep the backup folder until you no longer need to restore. Restore also verifies its inputs; it will not overwrite files from a different version or a later modification. You can alternatively copy the seven original files from the backup folder back into the game folder while all game programs are closed.
 
 IF INSTALLATION FAILS
 Read the displayed error. A version mismatch means this build is unsupported; do not force the patch. A file-access error usually means a game/settings window is still open or the folder is not writable. Backups are retained. If writing fails after changes begin, the installer attempts to restore the files changed during that run.
@@ -42,3 +42,5 @@ The five Japanese-named A-1 through A-5 game executables
 
 SHARING
 Share the ZIP as-is, rather than uploading your patched executables or backup folder. Recipients must supply their own supported game files. Preserve this guide and version information when sharing.
+
+Version 1.1 changes: Install and Restore now open a folder-selection popup. Cancel exits without changing files. The game patches and backup folder names are unchanged from v1.0.

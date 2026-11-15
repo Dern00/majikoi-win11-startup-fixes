@@ -1,4 +1,4 @@
-param([ValidateSet('Install','Restore')][string]$Mode='Install',[string]$GameFolder)
+﻿param([ValidateSet('Install','Restore')][string]$Mode='Install',[string]$GameFolder)
 $ErrorActionPreference='Stop'
 function Hash-Bytes([byte[]]$Bytes) {
  $sha=[Security.Cryptography.SHA256]::Create()
@@ -6,9 +6,23 @@ function Hash-Bytes([byte[]]$Bytes) {
 }
 $written=New-Object 'System.Collections.Generic.List[object]'
 try {
- Write-Host 'Majikoi A: Startup Fix + English Launcher and Settings v1.0'
+ Write-Host 'Majikoi A: Startup Fix + English Launcher and Settings v1.1'
  Write-Host 'Close the launcher, settings windows, and all five games first.'
- if(-not $GameFolder){$GameFolder=Read-Host 'Paste the game folder path'}
+ if(-not $GameFolder){
+  Add-Type -AssemblyName System.Windows.Forms
+  [System.Windows.Forms.Application]::EnableVisualStyles()
+  $picker=New-Object System.Windows.Forms.FolderBrowserDialog
+  $picker.Description="Select the game installation folder for $Mode."
+  $picker.ShowNewFolderButton=$false
+  $picker.SelectedPath=$PSScriptRoot
+  try {
+   if($picker.ShowDialog() -ne [System.Windows.Forms.DialogResult]::OK){
+    Write-Host 'Cancelled. No files were changed.'
+    exit 0
+   }
+   $GameFolder=$picker.SelectedPath
+  } finally {$picker.Dispose()}
+ }
  $GameFolder=$GameFolder.Trim().Trim('"')
  if(-not (Test-Path -LiteralPath $GameFolder -PathType Container)){throw 'Game folder not found.'}
  $GameFolder=(Get-Item -LiteralPath $GameFolder).FullName

@@ -4,18 +4,22 @@ Unofficial patches for intermittent startup failures in Majikoi A1–A5 and Maji
 
 ## Downloads
 
-[Latest release](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/tag/v1.0)
+[Latest release](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/tag/v1.1)
 
-- [Majikoi A1-A5 Win 11 startup fix.zip](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/download/v1.0/Majikoi.A1-A5.Win.11.startup.fix.zip)
-- [Majikoi A+ Win 11 startup fix.zip](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/download/v1.0/Majikoi.A%2B.Win.11.startup.fix.zip)
+- [Majikoi A1-A5 Win 11 startup fix.zip](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/download/v1.1/Majikoi.A1-A5.Win.11.startup.fix.zip)
+- [Majikoi A+ Win 11 startup fix.zip](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/download/v1.1/Majikoi.A%2B.Win.11.startup.fix.zip)
 
 Download the ZIP for your game from the release assets, then extract the entire ZIP before running it.
+
+## Version 1.1
+
+Install and Restore now open a folder-selection popup. Cancel exits without changing files. Game patches and v1.0 backup compatibility are unchanged.
 
 ## Installation
 
 1. Close the game, launcher, and settings windows.
 2. Extract the appropriate ZIP and run **Install.cmd**.
-3. Paste the full path to your game folder when prompted.
+3. Choose your game installation folder in the popup, then click OK.
 4. After installation succeeds, launch the game normally. For A+, use `majikoiAplus.exe`.
 
 The installers use Windows PowerShell, which is built into Windows. No Python, extra runtime, or downloads are needed. The game folder must be writable.
@@ -41,7 +45,7 @@ A+ expects both `majikoiAplus.exe` and the Japanese-named game executable presen
 
 ## Backups and removal
 
-Run **Restore.cmd** from the extracted package and enter the game folder. Keep the installer-created backup folder in the game directory:
+Run **Restore.cmd** from the extracted package and select the game folder in the popup. Keep the installer-created backup folder in the game directory:
 
 - A1–A5: `Majikoi-English-Startup-Mod-Backup-v1`
 - A+: `Majikoi-APlus-Startup-Mod-Backup-v1`
@@ -63,6 +67,6 @@ The ZIPs contain patch data, install/restore scripts, and instructions. Full exe
 ## SHA-256 checksums
 
 ```
-fb65ae33e293043ee7c64abee17f1e0293c643b01cb98e9b89a7ed419ceae2ee  Majikoi A1-A5 Win 11 startup fix.zip
-1f9e33bb4e9c78a196a9096ffc37060974154bfeaf0963198cb4f621e86f575b  Majikoi A+ Win 11 startup fix.zip
+1fe24d41c3343dae3ca11e99aa2651f306b2a28cb9c71061b24cfc08ef890541  Majikoi A1-A5 Win 11 startup fix.zip
+8403dc02ab85b2b5afa00fccf4b531c58e42874f3ea1ae8d4f8f4f6884b6abd2  Majikoi A+ Win 11 startup fix.zip
 ```
