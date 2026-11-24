@@ -1,4 +1,4 @@
-MAJIKOI A+ WIN 11 STARTUP FIX — v1.1
+MAJIKOI A+ WIN 11 STARTUP FIX — v1.1.1
 Unofficial community patch | November 15, 2026
 
 Restricts the two game executables to one logical processor to address startup crashes. No translation changes are included.
@@ -27,3 +27,5 @@ No saves, game archives, translation files, or global Windows settings are chang
 Share this ZIP, not your game files or backups.
 
 Version 1.1 changes: Install and Restore now open a folder-selection popup. Cancel exits without changing files. The game patches and backup folder names are unchanged from v1.0.
+
+Version 1.1.1 rechecks files after locking them and holds their locks through writes and rollback. If a file is busy, the installer stops before writing game files. Existing backups remain compatible.

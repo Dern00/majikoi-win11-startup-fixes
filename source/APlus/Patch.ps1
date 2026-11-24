@@ -4,9 +4,17 @@ function Hash-Bytes([byte[]]$Bytes) {
  $sha=[Security.Cryptography.SHA256]::Create()
  try { return ([BitConverter]::ToString($sha.ComputeHash($Bytes))).Replace('-','').ToLowerInvariant() } finally {$sha.Dispose()}
 }
+function Hash-Stream([IO.FileStream]$Stream) {
+ $sha=[Security.Cryptography.SHA256]::Create()
+ try {
+  $Stream.Position=0
+  return ([BitConverter]::ToString($sha.ComputeHash($Stream))).Replace('-','').ToLowerInvariant()
+ } finally {$sha.Dispose()}
+}
+$locked=New-Object 'System.Collections.Generic.List[object]'
 $written=New-Object 'System.Collections.Generic.List[object]'
 try {
- Write-Host 'Majikoi A+ Win 11 startup fix v1.1'
+ Write-Host 'Majikoi A+ Win 11 startup fix v1.1.1'
  Write-Host 'Close the launcher, settings windows, and the game first.'
  if(-not $GameFolder){
   Add-Type -AssemblyName System.Windows.Forms
@@ -38,7 +46,6 @@ try {
   $saved=Join-Path $backup $f.name
   if($Mode -eq 'Install'){
    if($hash -eq $f.patchedSha256){Write-Host "Already patched: $($f.name)";continue}
-   if(Test-Path -LiteralPath $saved){if((Hash-Bytes ([IO.File]::ReadAllBytes($saved))) -ne $f.originalSha256){throw "Backup mismatch: $($f.name)"}}
    $next=[byte[]]$current.Clone()
    foreach($change in $f.changes){$chunk=[Convert]::FromBase64String($change.bytes);[Array]::Copy($chunk,0,$next,[int]$change.offset,$chunk.Length)}
    if((Hash-Bytes $next) -ne $f.patchedSha256){throw "Patch verification failed: $($f.name)"}
@@ -48,19 +55,50 @@ try {
    $next=[IO.File]::ReadAllBytes($saved)
    if((Hash-Bytes $next) -ne $f.originalSha256){throw "Backup verification failed: $($f.name)"}
   }
-  $jobs.Add([pscustomobject]@{Name=$f.name;Path=$target;Backup=$saved;Before=$current;After=$next})
+  $jobs.Add([pscustomobject]@{Name=$f.name;Path=$target;Backup=$saved;Before=$current;BeforeHash=$hash;After=$next;Stream=$null})
  }
- # Prepare and validate every output before changing any game file.
+ # Lock and recheck every file that will change before creating backups or writing.
+ # Keep the same handles open through verification and any rollback.
+ foreach($job in $jobs){
+  try {
+   $job.Stream=[IO.File]::Open($job.Path,[IO.FileMode]::Open,[IO.FileAccess]::ReadWrite,[IO.FileShare]::None)
+  } catch {
+   throw "Could not lock $($job.Name) for writing. Close the game and launcher and check that the folder is writable. $($_.Exception.Message)"
+  }
+  $locked.Add($job)
+  if((Hash-Stream $job.Stream) -ne $job.BeforeHash){
+   throw "File changed during verification: $($job.Name). No game files were changed. Run the installer again when the folder is idle."
+  }
+ }
+
  if($Mode -eq 'Install' -and $jobs.Count -gt 0){
   $null=New-Item -ItemType Directory -Path $backup -Force
-  foreach($job in $jobs){if(-not (Test-Path -LiteralPath $job.Backup)){[IO.File]::WriteAllBytes($job.Backup,$job.Before)}}
+  foreach($job in $jobs){
+   if(Test-Path -LiteralPath $job.Backup){
+    if((Hash-Bytes ([IO.File]::ReadAllBytes($job.Backup))) -ne $job.BeforeHash){
+     throw "Backup mismatch: $($job.Name)"
+    }
+    continue
+   }
+   $backupStream=[IO.File]::Open($job.Backup,[IO.FileMode]::CreateNew,[IO.FileAccess]::ReadWrite,[IO.FileShare]::None)
+   try {
+    $backupStream.Write($job.Before,0,$job.Before.Length)
+    $backupStream.Flush()
+    if((Hash-Stream $backupStream) -ne $job.BeforeHash){
+     throw "Could not verify backup: $($job.Name)"
+    }
+   } finally {$backupStream.Dispose()}
+  }
  }
  foreach($job in $jobs){
-  # Opening with exclusive access fails safely if the game is still running.
-  $stream=[IO.File]::Open($job.Path,[IO.FileMode]::Open,[IO.FileAccess]::Write,[IO.FileShare]::None)
   $written.Add($job)
-  try {$stream.Write($job.After,0,$job.After.Length);$stream.SetLength($job.After.Length);$stream.Flush()} finally {$stream.Dispose()}
-  if((Hash-Bytes ([IO.File]::ReadAllBytes($job.Path))) -ne (Hash-Bytes $job.After)){throw "Write verification failed: $($job.Name)"}
+  $job.Stream.Position=0
+  $job.Stream.Write($job.After,0,$job.After.Length)
+  $job.Stream.SetLength($job.After.Length)
+  $job.Stream.Flush()
+  if((Hash-Stream $job.Stream) -ne (Hash-Bytes $job.After)){
+   throw "Write verification failed: $($job.Name)"
+  }
   Write-Host "Updated: $($job.Name)"
  }
  Write-Host "$Mode complete. $($jobs.Count) files updated."
@@ -68,7 +106,20 @@ try {
  exit 0
 }catch{
  $failure=$_.Exception.Message
- foreach($job in $written){try{[IO.File]::WriteAllBytes($job.Path,$job.Before)}catch{Write-Host "Automatic rollback failed for $($job.Name). Original backups remain in $backup." -ForegroundColor Red}}
+ foreach($job in $written){
+  try {
+   $job.Stream.Position=0
+   $job.Stream.Write($job.Before,0,$job.Before.Length)
+   $job.Stream.SetLength($job.Before.Length)
+   $job.Stream.Flush()
+   if((Hash-Stream $job.Stream) -ne $job.BeforeHash){throw 'Rollback verification failed.'}
+  } catch {
+   Write-Host "Automatic rollback failed for $($job.Name). Original backups remain in $backup." -ForegroundColor Red
+  }
+ }
  Write-Host "FAILED: $failure" -ForegroundColor Red
  exit 1
+}
+finally {
+ foreach($job in $locked){$job.Stream.Dispose()}
 }

@@ -1,5 +1,5 @@
 MAJIKOI A: STARTUP FIX + ENGLISH LAUNCHER AND SETTINGS
-Version 1.1 | November 15, 2026 | Unofficial community patch
+Version 1.1.1 | November 15, 2026 | Unofficial community patch
 
 WHAT IT DOES
 - Helps prevent startup hangs on modern Windows by restricting each A-1 through A-5 game to one logical processor.
@@ -44,3 +44,5 @@ SHARING
 Share the ZIP as-is, rather than uploading your patched executables or backup folder. Recipients must supply their own supported game files. Preserve this guide and version information when sharing.
 
 Version 1.1 changes: Install and Restore now open a folder-selection popup. Cancel exits without changing files. The game patches and backup folder names are unchanged from v1.0.
+
+Version 1.1.1 rechecks files after locking them and holds their locks through writes and rollback. If a file is busy, the installer stops before writing game files. Existing backups remain compatible.
