@@ -4,16 +4,16 @@ Unofficial patches for intermittent startup failures in Majikoi A1–A5 and Maji
 
 ## Downloads
 
-[Latest release](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/tag/v1.1)
+[Latest release](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/tag/v1.1.1)
 
-- [Majikoi A1-A5 Win 11 startup fix.zip](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/download/v1.1/Majikoi.A1-A5.Win.11.startup.fix.zip)
-- [Majikoi A+ Win 11 startup fix.zip](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/download/v1.1/Majikoi.A%2B.Win.11.startup.fix.zip)
+- [Majikoi A1-A5 Win 11 startup fix v1.1.1.zip](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/download/v1.1.1/Majikoi.A1-A5.Win.11.startup.fix.v1.1.1.zip)
+- [Majikoi A+ Win 11 startup fix v1.1.1.zip](https://github.com/Dern00/majikoi-win11-startup-fixes/releases/download/v1.1.1/Majikoi.A%2B.Win.11.startup.fix.v1.1.1.zip)
 
 Download the ZIP for your game from the release assets, then extract the entire ZIP before running it.
 
-## Version 1.1
+## Version 1.1.1
 
-Install and Restore now open a folder-selection popup. Cancel exits without changing files. Game patches and v1.0 backup compatibility are unchanged.
+Install and Restore recheck each game file after locking it and hold the lock through writing and any rollback. If a file is busy, the installer stops before writing game files. Both installers use a folder-selection popup and accept existing backups.
 
 ## Installation
 
@@ -67,6 +67,6 @@ The ZIPs contain patch data, install/restore scripts, and instructions. Full exe
 ## SHA-256 checksums
 
 ```
-1fe24d41c3343dae3ca11e99aa2651f306b2a28cb9c71061b24cfc08ef890541  Majikoi A1-A5 Win 11 startup fix.zip
-8403dc02ab85b2b5afa00fccf4b531c58e42874f3ea1ae8d4f8f4f6884b6abd2  Majikoi A+ Win 11 startup fix.zip
+fd78af4c8b27d8da4f421a3b395fe069aae6e2469e86283aa591b0a38898249f  Majikoi A1-A5 Win 11 startup fix v1.1.1.zip
+f4bdb9bc8b4e74c886ddaaf1b6689f322e9dfc64f0e680e2f8e39cfd9c68bb10  Majikoi A+ Win 11 startup fix v1.1.1.zip
 ```
